@@ -48,7 +48,7 @@ allAnime = data;
   
 const list = document.getElementById("animeList");
 
-list.innerHTML = data.map(a => `
+list.innerHTML = allAnime.map(a => `
 <div class="card">
 <h2>${a.title}</h2>
 放送: ${formatDate(a.broadcast_start)} 〜 ${formatDate(a.broadcast_end)}
