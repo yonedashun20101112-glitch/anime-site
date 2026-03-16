@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>自分のアニメ記録</title>
+
+<style>
+body{
+font-family:sans-serif;
+background:#f0f3f7;
+margin:40px;
+}
+
+.card{
+background:white;
+padding:20px;
+margin-bottom:20px;
+border-radius:10px;
+box-shadow:0 3px 8px rgba(0,0,0,0.1);
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>自分のアニメ記録</h1>
+
+<div id="animeList"></div>
+
+<script>
+
+const API_URL = "https://script.google.com/macros/s/AKfycbxh41Tc_TzHdzY2FOqvIPdqQ2nNhfOeCSCdd_bFlTBqAQDZTELsaDxbVnA39Rc2T3sDpw/exec";
+
+async function loadAnime(){
+
+const res = await fetch(API_URL);
+const data = await res.json();
+
+const list = document.getElementById("animeList");
+
+list.innerHTML = data.map(a => `
+<div class="card">
+<h2>${a.title}</h2>
+<p>放送: ${a.broadcast_start} 〜 ${a.broadcast_end}</p>
+<p>視聴: ${a.watch_start} 〜 ${a.watch_end}</p>
+<p>評価: ${a.score} (${a.rank})</p>
+<p>声優: ${a.voice_actors}</p>
+</div>
+`).join("");
+
+}
+
+loadAnime();
+
+</script>
+
+</body>
+</html>
