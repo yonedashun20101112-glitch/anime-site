@@ -51,7 +51,7 @@ function renderAnime(list){
 
   animeList.innerHTML = list.map(a => `
     <div class="card">
-      <img src="kaoruhana.png" alt="${a.title || ""}" style="width:100%; border-radius:10px; margin-bottom:12px;">
+      <img src="${a.card_image}" alt="${a.title || ""}" style="width:100%; border-radius:10px; margin-bottom:12px;">
       <h2>${a.title || ""}</h2>
       <p>放送: ${formatDate(a.broadcast_start)} 〜 ${formatDate(a.broadcast_end)}</p>
       <p>視聴: ${formatDate(a.watch_start)} 〜 ${formatDate(a.watch_end)}</p>
