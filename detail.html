@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>作品詳細</title>
+  <style>
+    body{
+      font-family:sans-serif;
+      background:#f0f3f7;
+      margin:40px;
+      color:#222;
+    }
+
+    .container{
+      max-width:900px;
+      margin:0 auto;
+    }
+
+    .card{
+      background:white;
+      padding:20px;
+      border-radius:12px;
+      box-shadow:0 3px 8px rgba(0,0,0,0.1);
+    }
+
+    img{
+      width:100%;
+      border-radius:10px;
+      margin-bottom:16px;
+    }
+
+    a{
+      display:inline-block;
+      margin-bottom:20px;
+      text-decoration:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html">← 一覧に戻る</a>
+    <div id="detail">読み込み中...</div>
+  </div>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbyEECR8Meu6JFmCWkROPb9bLVBkLO2b94MgIUz_IzlZG2cSeKQ8uM3bKR1xXV-xWXReWQ/exec";
+
+    function formatDate(d){
+      if(!d) return "";
+      return String(d).slice(0, 10);
+    }
+
+    function getIdFromUrl(){
+      const params = new URLSearchParams(location.search);
+      return params.get("id");
+    }
+
+    async function loadDetail(){
+      const id = getIdFromUrl();
+      const res = await fetch(API_URL);
+      const data = await res.json();
+
+      const anime = data.find(a => String(a.id) === String(id));
+      const detail = document.getElementById("detail");
+
+      if(!anime){
+        detail.innerHTML = "<p>作品が見つかりませんでした。</p>";
+        return;
+      }
+
+      detail.innerHTML = `
+        <div class="card">
+          <img src="${anime.card_image || ""}" alt="${anime.title || ""}">
+          <h1>${anime.title || ""}</h1>
+          <p><strong>放送:</strong> ${formatDate(anime.broadcast_start)} 〜 ${formatDate(anime.broadcast_end)}</p>
+          <p><strong>視聴:</strong> ${formatDate(anime.watch_start)} 〜 ${formatDate(anime.watch_end)}</p>
+          <p><strong>評価:</strong> ${anime.score || "-"} (${anime.rank || "-"})</p>
+          <p><strong>状態:</strong> ${anime.status || "-"}</p>
+          <p><strong>声優:</strong> ${anime.voice_actors || "-"}</p>
+          <p><strong>メモ:</strong> ${anime.note || "-"}</p>
+        </div>
+      `;
+    }
+
+    loadDetail();
+  </script>
+</body>
+</html>
