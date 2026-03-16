@@ -67,7 +67,7 @@ function renderAnime(list){
       <p>評価: ${a.score || "-"} (${a.rank || "-"})</p>
       <p>声優: ${
   a.voice_actors
-    ? a.voice_actors.split(",").map(v => `<button onclick="filterByVoiceActor('${v.trim()}')" style="margin:4px; padding:6px 10px; border:none; border-radius:999px; background:#e5e7eb; cursor:pointer;">${v.trim()}</button>`).join("")
+    ? a.voice_actors.split(",").map(v => `<button onclick="event.stopPropagation(); filterByVoiceActor('${v.trim()}')" style="margin:4px; padding:6px 10px; border:none; border-radius:999px; background:#e5e7eb; cursor:pointer;">${v.trim()}</button>`).join("")
     : "-"
 }</p>
     </div>
