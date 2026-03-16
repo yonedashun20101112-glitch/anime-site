@@ -80,7 +80,11 @@
           <p><strong>声優:</strong> ${anime.voice_actors || "-"}</p>
          <p><strong>楽曲情報:</strong></p>
 <ul>
-  ${(anime.songs || "").split(" / ").map(s => `<li>${s}</li>`).join("")}
+  ${(anime.songs || "").split(" / ").map((s, i) => {
+    const links = (anime.song_links || "").split(" / ");
+    const link = links[i] || "#";
+    return `<li>${s} <a href="${link}" target="_blank">聴く</a></li>`;
+  }).join("")}
 </ul>
 <p>
   <a href="${anime.song_link || '#'}" target="_blank" style="display:inline-block;padding:8px 14px;background:#f43f5e;color:white;border-radius:8px;text-decoration:none;">
