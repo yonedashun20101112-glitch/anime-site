@@ -80,13 +80,19 @@
           <p><strong>声優:</strong> ${anime.voice_actors || "-"}</p>
          <p><strong>楽曲情報:</strong></p>
 <ul>
-  ${(anime.song_links || "").split(" / ").map((s, i) => {
-    const links =(anime.song_links || "").split(/\s*\/\s*/);
-    const link = links[i] || "#";
-    return `<li>${s} <a href="${link}" target="_blank">AppleMusicで聴く</a></li>`;
+  ${(anime.songs || "").split(" / ").map((s, i) => {
+    const links = (anime.song_links || "").split(" / ");
+    const link = (links[i] || "").trim();
+
+    if (!s.trim()) return "";
+
+    if (link) {
+      return `<li>${s.trim()} <a href="${link}" target="_blank" rel="noopener noreferrer">聴く</a></li>`;
+    } else {
+      return `<li>${s.trim()}</li>`;
+    }
   }).join("")}
 </ul>
-
           <p><strong>メモ:</strong> ${anime.note || "-"}</p>
         </div>
       `;
