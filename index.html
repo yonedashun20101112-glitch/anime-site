@@ -32,46 +32,57 @@ box-shadow:0 3px 8px rgba(0,0,0,0.1);
 <div id="animeList"></div>
 
 <script>
+const API_URL = "https://script.google.com/macros/s/AKfycbyEECR8Meu6JFmCWkROPb9bLVBkLO2b94MgIUz_IzlZG2cSeKQ8uM3bKR1xXV-xWXReWQ/exec";
 
-const API_URL = "https://script.google.com/macros/s/AKfycbxh41Tc_TzHdzY2FOqvIPdqQ2nNhfOeCSCdd_bFlTBqAQDZTELsaDxbVnA39Rc2T3sDpw/exec";
-let allAnime = [];  
+let allAnime = [];
+
 function formatDate(d){
   if(!d) return "";
   return String(d).slice(0, 10);
 }
-async function loadAnime(){
 
-const res = await fetch(API_URL);
-const data = await res.json();
+function renderAnime(list){
+  const animeList = document.getElementById("animeList");
 
-allAnime = data;
-  
-const list = document.getElementById("animeList");
+  if (!list.length) {
+    animeList.innerHTML = "<p>該当する作品nなし</p>";
+    return;
+  }
 
-list.innerHTML = allAnime.map(a => `
-<div class="card">
-<h2>${a.title}</h2>
-放送: ${formatDate(a.broadcast_start)} 〜 ${formatDate(a.broadcast_end)}
-視聴: ${formatDate(a.watch_start)} 〜 ${formatDate(a.watch_end)}
-<p>評価: ${a.score} (${a.rank})</p>
-<p>声優: ${a.voice_actors}</p>
-</div>
-`).join("");
-
+  animeList.innerHTML = list.map(a => `
+    <div class="card">
+      <h2>${a.title || ""}</h2>
+      <p>放送: ${formatDate(a.broadcast_start)} 〜 ${formatDate(a.broadcast_end)}</p>
+      <p>視聴: ${formatDate(a.watch_start)} 〜 ${formatDate(a.watch_end)}</p>
+      <p>評価: ${a.score || "-"} (${a.rank || "-"})</p>
+      <p>声優: ${a.voice_actors || "-"}</p>
+    </div>
+  `).join("");
 }
 
-loadAnime();
-  document.getElementById("searchInput").addEventListener("input", function(e) {
-  const keyword = e.target.value.toLowerCase();
+async function loadAnime(){
+  const res = await fetch(API_URL);
+  const data = await res.json();
 
-  const filtered = allAnime.filter(a =>
-    a.title.toLowerCase().includes(keyword)
-  );
+  allAnime = data;
+  renderAnime(allAnime);
+}
 
-  renderAnime(filtered);
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("searchInput");
+
+  searchInput.addEventListener("input", function(e){
+    const keyword = e.target.value.toLowerCase();
+
+    const filtered = allAnime.filter(a =>
+      String(a.title || "").toLowerCase().includes(keyword)
+    );
+
+    renderAnime(filtered);
+  });
+
+  loadAnime();
 });
-
 </script>
-
 </body>
 </html>
