@@ -45,7 +45,7 @@ function renderAnime(list){
   const animeList = document.getElementById("animeList");
 
   if (!list.length) {
-    animeList.innerHTML = "<p>該当する作品nなし</p>";
+    animeList.innerHTML = "<p>該当する作品なし</p>";
     return;
   }
 
@@ -56,7 +56,11 @@ function renderAnime(list){
       <p>放送: ${formatDate(a.broadcast_start)} 〜 ${formatDate(a.broadcast_end)}</p>
       <p>視聴: ${formatDate(a.watch_start)} 〜 ${formatDate(a.watch_end)}</p>
       <p>評価: ${a.score || "-"} (${a.rank || "-"})</p>
-      <p>声優: ${a.voice_actors || "-"}</p>
+      <p>声優: ${
+  a.voice_actors
+    ? a.voice_actors.split(",").map(v => `<button onclick="filterByVoiceActor('${v.trim()}')" style="margin:4px; padding:6px 10px; border:none; border-radius:999px; background:#e5e7eb; cursor:pointer;">${v.trim()}</button>`).join("")
+    : "-"
+}</p>
     </div>
   `).join("");
 }
