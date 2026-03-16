@@ -78,7 +78,10 @@
           <p><strong>評価:</strong> ${anime.score || "-"} (${anime.rank || "-"})</p>
           <p><strong>状態:</strong> ${anime.status || "-"}</p>
           <p><strong>声優:</strong> ${anime.voice_actors || "-"}</p>
-         <p><strong>楽曲情報:</strong> ${anime.songs || "-"}</p>
+         <p><strong>楽曲情報:</strong></p>
+<ul>
+  ${(anime.songs || "").split(" / ").map(s => `<li>${s}</li>`).join("")}
+</ul>
 <p>
   <a href="${anime.song_link || '#'}" target="_blank" style="display:inline-block;padding:8px 14px;background:#f43f5e;color:white;border-radius:8px;text-decoration:none;">
     Apple Musicで聴く
