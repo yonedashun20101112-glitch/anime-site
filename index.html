@@ -104,8 +104,7 @@ function filterByVoiceActor(name) {
   );
 
   renderAnime(filtered);
-  document.getElementById("activeFilter").textContent = name + " で絞り込み中";
-
+ document.getElementById("activeFilter").textContent = name + " で絞り込み中（" + filtered.length + "作品）";
   const input = document.getElementById("searchInput");
   if (input) input.value = "";
 }
