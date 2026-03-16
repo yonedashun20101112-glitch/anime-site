@@ -31,7 +31,10 @@ box-shadow:0 3px 8px rgba(0,0,0,0.1);
 <script>
 
 const API_URL = "https://script.google.com/macros/s/AKfycbxh41Tc_TzHdzY2FOqvIPdqQ2nNhfOeCSCdd_bFlTBqAQDZTELsaDxbVnA39Rc2T3sDpw/exec";
-
+function formatDate(d){
+  if(!d) return "";
+  return new Date(d).toLocaleDateString("ja-JP");
+}
 async function loadAnime(){
 
 const res = await fetch(API_URL);
@@ -42,8 +45,8 @@ const list = document.getElementById("animeList");
 list.innerHTML = data.map(a => `
 <div class="card">
 <h2>${a.title}</h2>
-<p>放送: ${a.broadcast_start} 〜 ${a.broadcast_end}</p>
-<p>視聴: ${a.watch_start} 〜 ${a.watch_end}</p>
+放送: ${formatDate(a.broadcast_start)} 〜 ${formatDate(a.broadcast_end)}
+視聴: ${formatDate(a.watch_start)} 〜 ${formatDate(a.watch_end)}
 <p>評価: ${a.score} (${a.rank})</p>
 <p>声優: ${a.voice_actors}</p>
 </div>
