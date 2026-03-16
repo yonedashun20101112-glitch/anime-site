@@ -44,6 +44,8 @@ async function loadAnime(){
 const res = await fetch(API_URL);
 const data = await res.json();
 
+allAnime = data;
+  
 const list = document.getElementById("animeList");
 
 list.innerHTML = data.map(a => `
