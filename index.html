@@ -58,6 +58,15 @@ list.innerHTML = data.map(a => `
 }
 
 loadAnime();
+  document.getElementById("searchInput").addEventListener("input", function(e) {
+  const keyword = e.target.value.toLowerCase();
+
+  const filtered = allAnime.filter(a =>
+    a.title.toLowerCase().includes(keyword)
+  );
+
+  renderAnime(filtered);
+});
 
 </script>
 
